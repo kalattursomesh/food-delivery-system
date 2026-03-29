@@ -1,3 +1,12 @@
+---
+title: Food Delivery System
+emoji: 🍕
+colorFrom: red
+colorTo: yellow
+sdk: docker
+app_port: 8000
+---
+
 # Food Delivery Operations Environment
 
 An OpenEnv-compatible environment where AI agents learn to manage a real-world food delivery system. The agent assigns orders to drivers, optimises routing, handles disruptions, and tracks deliveries across a simulated city grid.
