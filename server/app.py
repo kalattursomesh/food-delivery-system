@@ -31,6 +31,16 @@ class StepRequest(BaseModel):
     action: DeliveryAction
 
 
+@app.get("/")
+def root():
+    return {
+        "message": "Welcome to the Food Delivery Operations Environment",
+        "api_docs": "/docs",
+        "health": "/health",
+        "tasks": "/tasks"
+    }
+
+
 @app.get("/health")
 def health():
     return {"status": "healthy", "environment": "food_delivery_env"}
