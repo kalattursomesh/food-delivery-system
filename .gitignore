@@ -9,3 +9,4 @@ outputs/
 dist/
 build/
 baseline_output.txt
+server_log.txt

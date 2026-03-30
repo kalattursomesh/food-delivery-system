@@ -254,15 +254,18 @@ class FoodDeliveryEnvironment:
                     order.status = "preparing"
 
         for order in self._orders:
-            if order.status == "preparing":
+            if order.status in ("assigned", "preparing"):
                 driver = self._get_driver(order.assigned_driver_id)
                 if driver:
                     dist = manhattan_distance(driver.location, order.pickup_location)
                     effective_speed = self._get_effective_speed(driver)
                     if dist <= effective_speed:
                         driver.location = order.pickup_location.model_copy()
-                        order.status = "picked_up"
-                        driver.status = "picking_up"
+                        if order.status == "preparing":
+                            order.status = "picked_up"
+                            driver.status = "picking_up"
+                        else:
+                            driver.status = "picking_up"
                     else:
                         self._move_driver_toward(driver, order.pickup_location)
 
@@ -417,6 +420,11 @@ class FoodDeliveryEnvironment:
             "idle_drivers": len([d for d in self._drivers if d.status == "idle"]),
         }
 
+        metadata = {
+            "task_id": self._task.task_id if self._task else "",
+            "traffic_zone": self._traffic_zone,
+        }
+
         return DeliveryObservation(
             restaurants=self._restaurants,
             drivers=self._drivers,
@@ -433,4 +441,5 @@ class FoodDeliveryEnvironment:
             time_step=self._state.time_step,
             hints=hints,
             metrics=metrics,
+            metadata=metadata
         )

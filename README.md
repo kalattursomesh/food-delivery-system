@@ -7,11 +7,16 @@ sdk: docker
 app_port: 8000
 ---
 
-# Food Delivery Operations Environment
+# 🍕 Food Delivery Operations Environment
 
-An OpenEnv-compatible environment where AI agents learn to manage a real-world food delivery system. The agent assigns orders to drivers, optimises routing, handles disruptions, and tracks deliveries across a simulated city grid.
+[![System Status](https://img.shields.io/badge/Status-Online-brightgreen)](#)
+[![OpenEnv Compliance](https://img.shields.io/badge/Compliance-OpenEnv_v1.0-blue)](#)
 
-## Environment Overview
+A premium, high-fidelity Simulation Environment designed for training and benchmarking AI agents in complex, multi-objective logistical operations.
+
+> **Explore the Interactive Dashboard:** Once running, visit the root URL at `http://localhost:8000/` to see the live management console.
+
+## 🏙️ Environment Overview
 
 The environment simulates a food delivery operations center. The agent receives incoming customer orders from multiple restaurants and must assign them to available delivery drivers, optimising for on-time delivery, customer satisfaction (VIP priority), and fleet efficiency.
 
