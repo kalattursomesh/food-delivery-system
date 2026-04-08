@@ -66,14 +66,15 @@ async def root(request: Request):
                 --primary: #8a2be2;
                 --secondary: #4b0082;
                 --accent: #00f2ff;
-                --bg: #050505;
-                --card-bg: rgba(15, 15, 25, 0.8);
-                --text: #ffffff;
-                --text-muted: #94a3b8;
+                --bg: #030305;
+                --card-bg: rgba(10, 10, 18, 0.9);
+                --text: #e2e8f0;
+                --text-muted: #64748b;
                 --glass: rgba(255, 255, 255, 0.03);
                 --success: #10b981;
                 --warning: #f59e0b;
                 --error: #ef4444;
+                --border: rgba(0, 242, 255, 0.15);
             }}
 
             * {{
@@ -88,6 +89,9 @@ async def root(request: Request):
                 color: var(--text);
                 overflow-x: hidden;
                 line-height: 1.6;
+                background-image: 
+                    radial-gradient(circle at 20% 20%, rgba(138, 43, 226, 0.05) 0%, transparent 40%),
+                    radial-gradient(circle at 80% 80%, rgba(0, 242, 255, 0.05) 0%, transparent 40%);
             }}
 
             .background {{
@@ -96,19 +100,8 @@ async def root(request: Request):
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #050505 100%);
+                background: #020204;
                 z-index: -2;
-            }}
-
-            .hero-glow {{
-                position: absolute;
-                top: -10%;
-                right: -10%;
-                width: 50%;
-                height: 50%;
-                background: radial-gradient(circle, rgba(138, 43, 226, 0.2) 0%, transparent 70%);
-                filter: blur(80px);
-                z-index: -1;
             }}
 
             .container {{
@@ -122,8 +115,8 @@ async def root(request: Request):
                 justify-content: space-between;
                 align-items: center;
                 padding: 1.5rem 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                margin-bottom: 4rem;
+                border-bottom: 1px solid var(--border);
+                margin-bottom: 3rem;
             }}
 
             .logo {{
@@ -133,72 +126,81 @@ async def root(request: Request):
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 letter-spacing: -1px;
+                text-transform: uppercase;
             }}
 
             .status-badge {{
                 display: flex;
                 align-items: center;
-                gap: 0.5rem;
+                gap: 0.8rem;
                 background: var(--card-bg);
-                padding: 0.5rem 1rem;
-                border-radius: 50px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
+                border-radius: 8px;
+                border: 1px solid var(--border);
+                font-size: 0.85rem;
+                font-weight: 600;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
             }}
 
             .status-dot {{
-                width: 8px;
-                height: 8px;
-                background-color: #00ff88;
+                width: 10px;
+                height: 10px;
+                background-color: var(--accent);
                 border-radius: 50%;
-                box-shadow: 0 0 10px #00ff88;
-                animation: pulse 2s infinite;
+                box-shadow: 0 0 12px var(--accent);
+                animation: pulse 1.5s infinite;
             }}
 
             @keyframes pulse {{
-                0% {{ opacity: 0.4; }}
-                50% {{ opacity: 1; }}
-                100% {{ opacity: 0.4; }}
+                0% {{ opacity: 0.3; transform: scale(0.9); }}
+                50% {{ opacity: 1; transform: scale(1.1); }}
+                100% {{ opacity: 0.3; transform: scale(0.9); }}
             }}
 
             .hero-section {{
                 display: grid;
-                grid-template-columns: 1.2fr 1fr;
-                gap: 4rem;
+                grid-template-columns: 1fr 0.9fr;
+                gap: 5rem;
                 align-items: center;
-                margin-bottom: 6rem;
+                margin-bottom: 8rem;
             }}
 
             .hero-content h1 {{
-                font-size: 4rem;
-                line-height: 1.1;
-                margin-bottom: 1.5rem;
+                font-size: 4.5rem;
+                line-height: 1;
+                margin-bottom: 2rem;
                 font-weight: 800;
+                letter-spacing: -2px;
             }}
 
             .hero-content p {{
-                font-size: 1.2rem;
+                font-size: 1.25rem;
                 color: var(--text-muted);
-                margin-bottom: 2.5rem;
-                max-width: 500px;
+                margin-bottom: 3rem;
+                max-width: 550px;
             }}
 
             .hero-image-container {{
                 position: relative;
-                border-radius: 24px;
+                border-radius: 12px;
                 overflow: hidden;
-                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+                border: 1px solid var(--border);
+                background: #000;
             }}
 
             .hero-image {{
                 width: 100%;
                 display: block;
-                transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+                opacity: 0.9;
+                transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
             }}
 
             .hero-image-container:hover .hero-image {{
-                transform: scale(1.05);
+                transform: scale(1.08);
+                opacity: 1;
             }}
 
             .cta-group {{
@@ -207,94 +209,139 @@ async def root(request: Request):
             }}
 
             .btn {{
-                padding: 1rem 2rem;
-                border-radius: 12px;
-                font-weight: 600;
+                padding: 1.2rem 2.5rem;
+                border-radius: 6px;
+                font-weight: 700;
                 text-decoration: none;
-                transition: all 0.3s ease;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
                 display: inline-flex;
                 align-items: center;
-                gap: 0.5rem;
+                gap: 0.8rem;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-size: 0.9rem;
             }}
 
             .btn-primary {{
-                background: linear-gradient(90deg, var(--primary), var(--secondary));
-                color: white;
-                box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+                background: var(--accent);
+                color: #000;
+                box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
             }}
 
             .btn-primary:hover {{
-                transform: translateY(-3px);
-                box-shadow: 0 15px 30px rgba(138, 43, 226, 0.5);
+                background: #fff;
+                transform: translateY(-4px);
+                box-shadow: 0 10px 40px rgba(0, 242, 255, 0.4);
             }}
 
             .btn-secondary {{
-                background: var(--card-bg);
-                color: white;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(10px);
+                background: transparent;
+                color: var(--accent);
+                border: 1px solid var(--accent);
             }}
 
             .btn-secondary:hover {{
-                background: rgba(255, 255, 255, 0.1);
-                border-color: rgba(255, 255, 255, 0.3);
+                background: rgba(0, 242, 255, 0.15);
+                transform: translateY(-4px);
             }}
 
             .tasks-grid {{
                 display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                gap: 2rem;
-                margin-bottom: 6rem;
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                gap: 2.5rem;
+                margin-bottom: 8rem;
             }}
 
             .task-card {{
                 background: var(--card-bg);
-                padding: 2rem;
-                border-radius: 20px;
+                padding: 2.5rem;
+                border-radius: 12px;
                 border: 1px solid rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(10px);
-                transition: all 0.3s ease;
+                backdrop-filter: blur(20px);
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                position: relative;
+                overflow: hidden;
+            }}
+
+            .task-card::before {{
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, var(--accent), transparent);
+                transform: translateX(-100%);
+                transition: transform 0.6s ease;
+            }}
+
+            .task-card:hover::before {{
+                transform: translateX(100%);
             }}
 
             .task-card:hover {{
-                border-color: var(--primary);
-                transform: translateY(-5px);
-                background: rgba(255, 255, 255, 0.08);
+                border-color: rgba(0, 242, 255, 0.3);
+                transform: translateY(-8px);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             }}
 
             .difficulty-tag {{
                 font-size: 0.7rem;
                 text-transform: uppercase;
-                letter-spacing: 1px;
-                padding: 0.3rem 0.8rem;
+                letter-spacing: 2px;
+                padding: 0.4rem 1rem;
                 border-radius: 4px;
-                margin-bottom: 1rem;
+                margin-bottom: 1.5rem;
                 display: inline-block;
+                font-weight: 800;
             }}
 
-            .easy {{ background: rgba(0, 255, 136, 0.1); color: #00ff88; }}
-            .medium {{ background: rgba(255, 187, 0, 0.1); color: #ffbb00; }}
-            .hard {{ background: rgba(255, 60, 0, 0.1); color: #ff3c00; }}
+            .easy {{ background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.2); }}
+            .medium {{ background: rgba(245, 158, 11, 0.1); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.2); }}
+            .hard {{ background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid rgba(239, 68, 68, 0.2); }}
 
             .task-card h3 {{
-                font-size: 1.4rem;
-                margin-bottom: 0.8rem;
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+                font-weight: 800;
+                color: #fff;
             }}
 
             .task-card p {{
                 color: var(--text-muted);
-                font-size: 0.95rem;
+                font-size: 1rem;
+                line-height: 1.6;
+            }}
+
+            .btn-launch {{
+                background: transparent;
+                border: 1px solid var(--accent);
+                color: var(--accent);
+                padding: 0.5rem 1.2rem;
+                border-radius: 4px;
+                font-weight: 700;
+                font-size: 0.75rem;
+                letter-spacing: 1px;
+                cursor: pointer;
+                transition: all 0.3s;
+                text-transform: uppercase;
+            }}
+
+            .btn-launch:hover {{
+                background: var(--accent);
+                color: #000;
             }}
 
             footer {{
                 text-align: center;
-                padding: 4rem 0;
+                padding: 6rem 0;
                 color: var(--text-muted);
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                border-top: 1px solid var(--border);
+                font-size: 0.9rem;
+                letter-spacing: 1px;
             }}
 
-
-            /* Dashboard Layout Core */
+            /* Dashboard Improvements */
             .dashboard-container {{
                 display: none;
                 margin-top: 4rem;
@@ -303,19 +350,19 @@ async def root(request: Request):
 
             .dashboard-layout {{
                 display: grid;
-                grid-template-columns: 1fr 350px;
-                gap: 1.5rem;
-                height: 700px;
-                margin-bottom: 2rem;
+                grid-template-columns: 1fr 400px;
+                gap: 2rem;
+                height: 800px;
+                margin-bottom: 3rem;
             }}
 
             .map-container {{
-                background: #0f172a;
-                border-radius: 20px;
+                background: #000;
+                border-radius: 12px;
                 position: relative;
                 overflow: hidden;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                border: 1px solid var(--border);
+                box-shadow: inset 0 0 100px rgba(0, 242, 255, 0.05);
             }}
 
             #city-grid {{
@@ -327,117 +374,119 @@ async def root(request: Request):
             .sidebar {{
                 display: flex;
                 flex-direction: column;
-                gap: 1.5rem;
+                gap: 2rem;
                 height: 100%;
             }}
 
             .sidebar-card {{
                 background: var(--card-bg);
-                border-radius: 16px;
-                padding: 1.5rem;
+                border-radius: 12px;
+                padding: 2rem;
                 border: 1px solid rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(10px);
+                backdrop-filter: blur(20px);
+            }}
+
+            .sidebar-card h3 {{
+                font-size: 1.1rem;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                margin-bottom: 1.5rem;
+                color: var(--accent);
+                border-left: 3px solid var(--accent);
+                padding-left: 1rem;
             }}
 
             .mission-stats-grid {{
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 1rem;
-                margin-top: 1rem;
+                gap: 1.2rem;
             }}
 
             .stat-box {{
-                background: rgba(255, 255, 255, 0.03);
-                padding: 0.8rem;
-                border-radius: 12px;
-                text-align: center;
+                background: rgba(255, 255, 255, 0.02);
+                padding: 1.2rem;
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.03);
             }}
 
             .stat-box label {{
                 display: block;
-                font-size: 0.7rem;
+                font-size: 0.65rem;
                 color: var(--text-muted);
                 text-transform: uppercase;
-                margin-bottom: 0.2rem;
+                letter-spacing: 1.5px;
+                margin-bottom: 0.5rem;
             }}
 
             .stat-box span {{
-                font-size: 1.1rem;
+                font-size: 1.4rem;
                 font-weight: 800;
-                color: var(--accent);
-            }}
-
-            .performance-chart-container {{
-                margin-top: 1rem;
-                width: 100%;
-                height: 80px;
-                background: rgba(0, 0, 0, 0.4);
-                border-radius: 8px;
-                padding: 4px;
-            }}
-
-            #performance-chart {{
-                width: 100%;
-                height: 100%;
+                color: #fff;
             }}
 
             .log-container {{
                 flex-grow: 1;
                 overflow-y: auto;
-                font-family: 'Courier New', monospace;
+                font-family: 'JetBrains Mono', 'Courier New', monospace;
                 font-size: 0.8rem;
-                padding: 1rem;
-                background: rgba(0, 0, 0, 0.2);
-                border-radius: 12px;
-                max-height: 480px;
+                padding: 1.2rem;
+                background: rgba(0, 0, 0, 0.4);
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                color: #a1a1aa;
+                line-height: 1.5;
             }}
+
+            .log-entry {{ margin-bottom: 0.5rem; }}
 
             .control-bar {{
                 display: flex;
-                gap: 1rem;
+                gap: 1.5rem;
                 justify-content: center;
-                margin-bottom: 4rem;
-            }}
-
-            .map-overlay {{
-                position: absolute;
-                top: 1rem;
-                left: 1rem;
-                z-index: 10;
-                pointer-events: none;
+                margin-bottom: 6rem;
             }}
 
             .map-badge {{
-                background: rgba(15, 23, 42, 0.8);
-                backdrop-filter: blur(8px);
-                padding: 0.5rem 1rem;
-                border-radius: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                background: rgba(0, 0, 0, 0.8);
+                backdrop-filter: blur(10px);
+                padding: 0.8rem 1.5rem;
+                border-radius: 4px;
+                border: 1px solid var(--accent);
                 font-size: 0.8rem;
-                font-weight: 600;
+                font-weight: 800;
+                color: var(--accent);
+                letter-spacing: 2px;
+                box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
             }}
 
             .legend-v2 {{
                 position: absolute;
-                bottom: 1rem;
-                right: 1rem;
-                background: rgba(15, 23, 42, 0.8);
-                backdrop-filter: blur(8px);
-                padding: 0.8rem;
-                border-radius: 12px;
+                bottom: 1.5rem;
+                right: 1.5rem;
+                background: rgba(0, 0, 0, 0.85);
+                backdrop-filter: blur(15px);
+                padding: 1rem;
+                border-radius: 8px;
                 display: flex;
                 flex-direction: column;
-                gap: 0.5rem;
-                font-size: 0.75rem;
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                gap: 0.8rem;
+                font-size: 0.7rem;
+                border: 1px solid var(--border);
+                text-transform: uppercase;
+                letter-spacing: 1px;
             }}
 
-            .legend-item-v2 {{ display: flex; align-items: center; gap: 0.5rem; }}
-            .legend-icon {{ width: 12px; height: 12px; border-radius: 3px; }}
+            .legend-item-v2 {{ display: flex; align-items: center; gap: 0.8rem; }}
+            .legend-icon {{ width: 14px; height: 14px; border: 1px solid var(--accent); }}
 
             .btn-warning {{
-                background: var(--warning);
-                color: black;
+                background: transparent;
+                color: var(--warning);
+                border: 1px solid var(--warning);
+            }}
+
+            .btn-warning:hover {{
+                background: rgba(245, 158, 11, 0.1);
             }}
 
             /* Responsive Scaling */
@@ -447,7 +496,7 @@ async def root(request: Request):
                     height: auto;
                 }}
                 .map-container {{
-                    height: 500px;
+                    height: 600px;
                 }}
             }}
 
@@ -455,7 +504,7 @@ async def root(request: Request):
                 .hero-section {{ grid-template-columns: 1fr; text-align: center; }}
                 .hero-content {{ order: 2; }}
                 .hero-image-container {{ order: 1; }}
-                .hero-content h1 {{ font-size: 3rem; }}
+                .hero-content h1 {{ font-size: 3.5rem; }}
                 .cta-group {{ justify-content: center; }}
                 .tasks-grid {{ grid-template-columns: 1fr; }}
             }}
@@ -496,10 +545,10 @@ async def root(request: Request):
                         </div>
                         <canvas id="city-grid" width="1000" height="700"></canvas>
                         <div class="legend-v2">
-                            <div class="legend-item-v2"><span class="legend-icon" style="background: var(--primary);"></span> Restaurant</div>
-                            <div class="legend-item-v2"><span class="legend-icon" style="background: var(--accent);"></span> Delivery Driver</div>
-                            <div class="legend-item-v2"><span class="legend-icon" style="background: #fbbf24;"></span> Order Pickup</div>
-                            <div class="legend-item-v2"><span class="legend-icon" style="background: var(--success);"></span> Delivery Target</div>
+                            <div class="legend-item-v2"><span class="legend-icon" style="background: var(--primary);"></span> HUB</div>
+                            <div class="legend-item-v2"><span class="legend-icon" style="background: var(--accent);"></span> UNIT</div>
+                            <div class="legend-item-v2"><span class="legend-icon" style="background: #fbbf24;"></span> PICKUP</div>
+                            <div class="legend-item-v2"><span class="legend-icon" style="background: var(--success);"></span> TARGET</div>
                         </div>
                     </div>
 
@@ -567,11 +616,10 @@ async def root(request: Request):
             let currentObs = null;
             let prevObs = null;
             let transitionFactor = 1.0;
-            let lastFrameTime = performance.now();
             
-            // Ambient Traffic Simulation (Visual Only)
+            // Ambient Traffic Simulation (Premium)
             const ambientTraffic = [];
-            const numTrafficCars = 15;
+            const numTrafficCars = 25; 
             
             for (let i = 0; i < numTrafficCars; i++) {{
                 const isHorizontal = Math.random() > 0.5;
@@ -580,81 +628,75 @@ async def root(request: Request):
                     horizontal: isHorizontal,
                     pos: Math.random() * gridSize,
                     lane: Math.floor(Math.random() * gridSize),
-                    speed: 0.05 + Math.random() * 0.1,
-                    color: ['#475569', '#334155', '#1e293b', '#94a3b8'][Math.floor(Math.random() * 4)]
+                    speed: 0.03 + Math.random() * 0.08,
+                    width: 12 + Math.random() * 8,
+                    height: 8,
+                    color: ['#334155', '#475569', '#1e293b', '#64748b'][Math.floor(Math.random() * 4)]
                 }});
             }}
-
-            // Reward History for Chart
-            let rewardHistory = [];
-            const chartCanvas = document.getElementById('performance-chart');
-            const chartCtx = chartCanvas ? chartCanvas.getContext('2d') : null;
 
             const varColors = {{
                 primary: '#8a2be2',
                 accent: '#00f2ff',
                 success: '#10b981',
-                bg: '#0f172a'
+                bg: '#050505',
+                error: '#ef4444',
+                warning: '#f59e0b'
             }};
+
+            // Reward History
+            let rewardHistory = [];
+            const chartCanvas = document.getElementById('performance-chart');
+            const chartCtx = chartCanvas ? chartCanvas.getContext('2d') : null;
 
             function updatePerformanceChart() {{
                 if (!chartCtx || rewardHistory.length < 2) return;
                 const w = chartCanvas.width = chartCanvas.offsetWidth;
                 const h = chartCanvas.height = chartCanvas.offsetHeight;
-                
                 chartCtx.clearRect(0, 0, w, h);
                 chartCtx.strokeStyle = varColors.accent;
                 chartCtx.lineWidth = 2;
                 chartCtx.beginPath();
-                
-                const maxReward = Math.max(...rewardHistory, 0.1);
-                const minReward = Math.min(...rewardHistory, -0.1);
-                const range = maxReward - minReward;
-                
+                const max = Math.max(...rewardHistory, 0.1);
+                const min = Math.min(...rewardHistory, -0.1);
+                const range = max - min;
                 rewardHistory.forEach((r, i) => {{
                     const x = (i / (rewardHistory.length - 1)) * w;
-                    const y = h - ((r - minReward) / range) * h;
+                    const y = h - ((r - min) / range) * h;
                     if (i === 0) chartCtx.moveTo(x, y);
                     else chartCtx.lineTo(x, y);
                 }});
                 chartCtx.stroke();
-                
-                // Area fill
                 chartCtx.lineTo(w, h);
                 chartCtx.lineTo(0, h);
                 chartCtx.fillStyle = `${{varColors.accent}}22`;
                 chartCtx.fill();
             }}
 
-            function log(msg, color = '#b0b0b0') {{
+            function log(msg, color = '#64748b') {{
                 const consoleOutput = document.getElementById('log-console');
                 const entry = document.createElement('div');
                 entry.className = 'log-entry';
                 entry.style.color = color;
-                entry.textContent = `> ${{msg}}`;
+                const now = new Date().toLocaleTimeString([], {{hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit'}});
+                entry.innerHTML = `<span style="color: #3f3f46">[${{now}}]</span> <span style="color: ${{color}}">// ${{msg}}</span>`;
                 consoleOutput.appendChild(entry);
                 consoleOutput.scrollTop = consoleOutput.scrollHeight;
             }}
 
             function updateStats(obs) {{
-                document.getElementById('stat-status').textContent = obs.done ? 'Finished' : 'Active';
+                document.getElementById('stat-status').textContent = obs.done ? 'COMPLETED' : 'ENGAGED';
                 document.getElementById('stat-reward').textContent = (obs.reward || 0).toFixed(4);
                 document.getElementById('stat-score').textContent = (obs.score || 0).toFixed(2);
-                
                 const delivered = obs.metrics?.delivered ?? 0;
                 const total = obs.metrics?.total_orders ?? 0;
                 document.getElementById('stat-delivered').textContent = `${{delivered}}/${{total}}`;
-                
                 rewardHistory.push(obs.reward || 0);
-                if (rewardHistory.length > 50) rewardHistory.shift();
+                if (rewardHistory.length > 60) rewardHistory.shift();
                 updatePerformanceChart();
-
-                document.getElementById('time-step-badge').textContent = `TIME STEP: ${{obs.time_step}}`;
-                
-                if (obs.action_message) log(obs.action_message, '#00f2ff');
-                if (obs.hints && obs.hints.length > 0) log(`Hint: ${{obs.hints[0]}}`, '#facc15');
-                
-                if (obs.done) log('MISSION ACCOMPLISHED.', varColors.success);
+                document.getElementById('time-step-badge').textContent = `T-STEP: ${{obs.time_step}}`;
+                if (obs.action_message) log(obs.action_message.toUpperCase(), varColors.accent);
+                if (obs.done) log('MISSION SUCCESSFUL. ALL SYSTEMS DISENGAGED.', varColors.success);
             }}
 
             function drawGrid() {{
@@ -665,55 +707,91 @@ async def root(request: Request):
                     const width = canvas.width;
                     const height = canvas.height;
                     const cellSize = width / gridSize;
-                    
                     ctx.globalCompositeOperation = 'source-over';
                     ctx.clearRect(0, 0, width, height);
 
-                    // 1. Cyber-Tactical Background with Depth
-                    const cycle = (currentObs.time_step % 100) / 100;
-                    const bgGrad = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, width);
-                    bgGrad.addColorStop(0, '#0f172a');
-                    bgGrad.addColorStop(1, '#020617');
-                    ctx.fillStyle = bgGrad;
+                    // 1. Base Layer (Tactical Dark)
+                    ctx.fillStyle = '#010103';
                     ctx.fillRect(0, 0, width, height);
 
-                    // Celestial Particles (Subtle)
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-                    for(let i=0; i<30; i++) {{
-                        const sx = (i * 137.5) % width;
-                        const sy = (i * 223.1) % height;
-                        ctx.beginPath();
-                        ctx.arc(sx, sy, 0.5, 0, Math.PI*2);
-                        ctx.fill();
+                    // 2. City Blocks (Buildings)
+                    ctx.fillStyle = '#050508';
+                    const pad = cellSize * 0.1;
+                    const roadWidth = cellSize * 0.4;
+                    for (let i = 0; i < gridSize; i++) {{
+                        for (let j = 0; j < gridSize; j++) {{
+                            const bx = i * cellSize + (cellSize - roadWidth)/2 + roadWidth;
+                            const by = j * cellSize + (cellSize - roadWidth)/2 + roadWidth;
+                            const bw = cellSize - roadWidth;
+                            const bh = cellSize - roadWidth;
+                            
+                            // Draw block base
+                            ctx.fillStyle = 'rgba(10, 10, 20, 0.8)';
+                            ctx.fillRect(i * cellSize + pad, j * cellSize + pad, cellSize - pad*2, cellSize - pad*2);
+                            
+                            // Subtle wireframe on block
+                            ctx.strokeStyle = 'rgba(138, 43, 226, 0.03)';
+                            ctx.strokeRect(i * cellSize + pad + 2, j * cellSize + pad + 2, cellSize - pad*2 - 4, cellSize - pad*2 - 4);
+                        }}
                     }}
 
-                    // 2. High-Tech Grid with Glow
+                    // 3. Advanced Road Network
+                    ctx.fillStyle = '#080812';
+                    for (let i = 0; i < gridSize; i++) {{
+                        // Horizontal Roads
+                        ctx.fillRect(0, i * cellSize + (cellSize - roadWidth)/2, width, roadWidth);
+                        // Vertical Roads
+                        ctx.fillRect(i * cellSize + (cellSize - roadWidth)/2, 0, roadWidth, height);
+                    }}
+                    
+                    // Road Markings (Neon Centerlines)
                     ctx.strokeStyle = 'rgba(0, 242, 255, 0.08)';
                     ctx.lineWidth = 1;
-                    ctx.shadowBlur = 0;
-                    for (let i = 0; i <= gridSize; i++) {{
-                        ctx.beginPath();
-                        ctx.moveTo(i * cellSize, 0); ctx.lineTo(i * cellSize, height);
-                        ctx.moveTo(0, i * cellSize); ctx.lineTo(width, i * cellSize);
-                        ctx.stroke();
-                    }}
-                    
-                    // Scanline Effect
-                    const scanPos = (Date.now() / 20) % height;
-                    ctx.fillStyle = 'rgba(0, 242, 255, 0.02)';
-                    ctx.fillRect(0, scanPos, width, 2);
-
-                    // 3. Road Network (Dark Matte)
-                    ctx.fillStyle = '#1e293b';
-                    const roadWidth = cellSize * 0.45;
+                    ctx.setLineDash([10, 10]);
                     for (let i = 0; i < gridSize; i++) {{
-                        ctx.fillRect(i * cellSize + (cellSize - roadWidth)/2, 0, roadWidth, height);
-                        ctx.fillRect(0, i * cellSize + (cellSize - roadWidth)/2, width, roadWidth);
+                        const pos = i * cellSize + cellSize/2;
+                        // Horizontal centers
+                        ctx.beginPath(); ctx.moveTo(0, pos); ctx.lineTo(width, pos); ctx.stroke();
+                        // Vertical centers
+                        ctx.beginPath(); ctx.moveTo(pos, 0); ctx.lineTo(pos, height); ctx.stroke();
+                    }}
+                    ctx.setLineDash([]);
+
+                    // 4. High-Tech Grid Overlay
+                    ctx.strokeStyle = 'rgba(0, 242, 255, 0.04)';
+                    ctx.lineWidth = 0.5;
+                    for (let i = 0; i <= gridSize; i++) {{
+                        ctx.beginPath(); ctx.moveTo(i * cellSize, 0); ctx.lineTo(i * cellSize, height); ctx.stroke();
+                        ctx.beginPath(); ctx.moveTo(0, i * cellSize); ctx.lineTo(width, i * cellSize); ctx.stroke();
                     }}
 
+                    // Major Coordinates
+                    ctx.fillStyle = 'rgba(0, 242, 255, 0.2)';
+                    ctx.font = '7px JetBrains Mono';
+                    for (let i = 0; i < gridSize; i += 2) {{
+                        ctx.fillText(String.fromCharCode(65 + i), i * cellSize + 2, 8);
+                        ctx.fillText(i + 1, 2, i * cellSize + 10);
+                    }}
+
+                    // 5. Traffic Congestion Zone
+                    if (currentObs.metadata && (currentObs.metadata.task_id.startsWith('hard'))) {{
+                        const pulse = (Math.sin(Date.now() / 300) + 1) / 2;
+                        ctx.fillStyle = `rgba(239, 68, 68, ${{0.05 + pulse * 0.05}})`;
+                        ctx.fillRect(8 * cellSize, 0, 4 * cellSize, height);
+                        ctx.strokeStyle = `rgba(239, 68, 68, ${{0.3 + pulse * 0.2}})`;
+                        ctx.lineWidth = 1;
+                        ctx.strokeRect(8 * cellSize, 0, 4 * cellSize, height);
+                        
+                        // Hazard lines
+                        ctx.setLineDash([5, 5]);
+                        ctx.beginPath();
+                        ctx.moveTo(8 * cellSize, 0); ctx.lineTo(12 * cellSize, height);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }}
+
+                    // 6. Ambient Traffic
                     ctx.globalCompositeOperation = 'lighter';
-                    
-                    // 3. Draw Ambient Traffic (Live Traffic)
                     ambientTraffic.forEach(car => {{
                         car.pos = (car.pos + car.speed) % gridSize;
                         let tx, ty;
@@ -724,137 +802,221 @@ async def root(request: Request):
                             tx = car.lane * cellSize + cellSize/2;
                             ty = car.pos * cellSize;
                         }}
-                        
-                        ctx.shadowBlur = 10;
-                        ctx.shadowColor = car.color;
-                        ctx.fillStyle = car.color;
-                        ctx.beginPath();
-                        ctx.arc(tx, ty, 3, 0, Math.PI * 2);
-                        ctx.fill();
-                        
-                        // Headlights
-                        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-                        if (car.horizontal) ctx.fillRect(tx + 4, ty - 2, 6, 1);
-                        else ctx.fillRect(tx - 1, ty + 4, 1, 6);
+                        drawTacticalCar(ctx, tx, ty, car.width, car.height, car.color, car.horizontal);
                     }});
-                    ctx.shadowBlur = 0;
 
-                // 4. Draw Interactive Traffic Zone (High-Congestion Area)
-                if (currentObs.metadata && (currentObs.metadata.task_id === 'hard_2' || currentObs.metadata.task_id === 'hard_1')) {{
-                    const pulse = (Math.sin(Date.now() / 500) + 1) / 2;
-                    ctx.fillStyle = `rgba(239, 68, 68, ${{0.1 + pulse * 0.1}})`;
-                    ctx.fillRect(8 * cellSize, 0, 4 * cellSize, height);
-                    ctx.strokeStyle = '#ef4444';
-                    ctx.lineWidth = 2;
-                    ctx.setLineDash([10, 5]);
-                    ctx.strokeRect(8 * cellSize, 0, 4 * cellSize, height);
-                    ctx.setLineDash([]);
-                    
-                    ctx.font = 'bold 12px Outfit';
-                    ctx.fillStyle = '#ef4444';
-                    ctx.textAlign = 'center';
-                    ctx.fillText('CRITICAL CONGESTION', 10 * cellSize, 30);
-                }}
+                    // 7. Radar Pings from HUBs
+                    const now = Date.now();
+                    currentObs.restaurants.forEach(r => {{
+                        const rx = r.location.x * cellSize + cellSize/2;
+                        const ry = r.location.y * cellSize + cellSize/2;
+                        const pingSize = (now % 2000) / 2000 * cellSize * 4;
+                        const opacity = 1 - (now % 2000) / 2000;
+                        ctx.strokeStyle = `rgba(138, 43, 226, ${{opacity * 0.3}})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.arc(rx, ry, pingSize, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }});
 
-                // 5. Draw Restaurants (Neon Hubs)
-                currentObs.restaurants.forEach(r => {{
-                    const x = r.location.x * cellSize + cellSize/2;
-                    const y = r.location.y * cellSize + cellSize/2;
-                    drawMarker(x, y, '🏪', r.name || r.id, varColors.primary, 24, true);
-                }});
+                    // 8. HUBs (Restaurants)
+                    currentObs.restaurants.forEach(r => {{
+                        const x = r.location.x * cellSize + cellSize/2;
+                        const y = r.location.y * cellSize + cellSize/2;
+                        drawTacticalMarker(x, y, 'HEX', r.name || r.id, varColors.primary, 15);
+                    }});
 
-                // 6. Draw Delivery Targets (Glowing Endpoints)
-                currentObs.orders.forEach(o => {{
-                    if (o.status !== 'delivered' && o.status !== 'cancelled') {{
-                        const x = o.delivery_location.x * cellSize + cellSize/2;
-                        const y = o.delivery_location.y * cellSize + cellSize/2;
-                        drawMarker(x, y, '🏠', `TARGET: ${{o.id}}`, '#10b981', 18, true);
+                    // 9. Targets (Orders)
+                    currentObs.orders.forEach(o => {{
+                        if (o.status !== 'delivered' && o.status !== 'cancelled') {{
+                            const dx = o.delivery_location.x * cellSize + cellSize/2;
+                            const dy = o.delivery_location.y * cellSize + cellSize/2;
+                            
+                            // Glowing target pulse
+                            const pulse = (Math.sin(now / 200) + 1) / 2;
+                            ctx.shadowBlur = 10 + pulse * 10;
+                            ctx.shadowColor = varColors.success;
+                            drawTacticalMarker(dx, dy, 'CROSS', `TARGET-${{o.id}}`, varColors.success, 10);
+                            ctx.shadowBlur = 0;
 
-                        if (['pending', 'preparing', 'assigned'].includes(o.status)) {{
-                            const px = o.pickup_location.x * cellSize + cellSize/2;
-                            const py = o.pickup_location.y * cellSize + cellSize/2;
-                            drawMarker(px, py, '🍕', `PICKUP`, '#f59e0b', 18, true);
+                            if (['pending', 'preparing', 'assigned'].includes(o.status)) {{
+                                const px = o.pickup_location.x * cellSize + cellSize/2;
+                                const py = o.pickup_location.y * cellSize + cellSize/2;
+                                drawTacticalMarker(px, py, 'DIAMOND', `PICKUP-${{o.id}}`, varColors.warning, 9);
+                            }}
                         }}
-                    }}
-                }});
+                    }});
 
-                // 6. Draw Drivers with Interpolation
-                currentObs.drivers.forEach(d => {{
-                    let x = d.location.x;
-                    let y = d.location.y;
+                    // 10. Active Units (Drivers)
+                    currentObs.drivers.forEach(d => {{
+                        let x = d.location.x;
+                        let y = d.location.y;
 
-                    if (prevObs && transitionFactor < 1.0) {{
-                        const pd = prevObs.drivers.find(p => p.id === d.id);
-                        if (pd) {{
-                            x = pd.location.x + (x - pd.location.x) * transitionFactor;
-                            y = pd.location.y + (y - pd.location.y) * transitionFactor;
+                        if (prevObs && transitionFactor < 1.0) {{
+                            const pd = prevObs.drivers.find(p => p.id === d.id);
+                            if (pd) {{
+                                x = pd.location.x + (x - pd.location.x) * transitionFactor;
+                                y = pd.location.y + (y - pd.location.y) * transitionFactor;
+                            }}
                         }}
-                    }}
 
-                    const cx = x * cellSize + cellSize/2;
-                    const cy = y * cellSize + cellSize/2;
+                        const cx = x * cellSize + cellSize/2;
+                        const cy = y * cellSize + cellSize/2;
 
-                    // Draw Path
-                    if (d.status !== 'idle' && d.status !== 'offline') {{
-                        const order = currentObs.orders.find(o => o.id === d.current_order_id);
-                        if (order) {{
-                            const isPickingUp = (d.status.includes('restaurant') || d.status.includes('picking'));
-                            const target = isPickingUp ? order.pickup_location : order.delivery_location;
-                            const tx = target.x * cellSize + cellSize/2;
-                            const ty = target.y * cellSize + cellSize/2;
+                        // Mission Path Visualization
+                        if (d.status !== 'idle' && d.status !== 'offline') {{
+                            const order = currentObs.orders.find(o => o.id === d.current_order_id);
+                            if (order) {{
+                                const isPickingUp = (d.status.includes('restaurant') || d.status.includes('picking'));
+                                const target = isPickingUp ? order.pickup_location : order.delivery_location;
+                                const tx = target.x * cellSize + cellSize/2;
+                                const ty = target.y * cellSize + cellSize/2;
 
-                            ctx.strokeStyle = isPickingUp ? varColors.accent : varColors.success;
-                            ctx.lineWidth = 2;
-                            ctx.setLineDash([5, 5]);
-                            ctx.beginPath();
-                            ctx.moveTo(cx, cy);
-                            ctx.lineTo(tx, ty);
-                            ctx.stroke();
-                            ctx.setLineDash([]);
+                                // Path glow
+                                ctx.strokeStyle = isPickingUp ? varColors.accent : varColors.success;
+                                ctx.lineWidth = 2;
+                                ctx.shadowBlur = 8;
+                                ctx.shadowColor = ctx.strokeStyle;
+                                ctx.setLineDash([5, 5]);
+                                ctx.beginPath();
+                                ctx.moveTo(cx, cy);
+                                ctx.lineTo(tx, ty);
+                                ctx.stroke();
+                                ctx.setLineDash([]);
+                                ctx.shadowBlur = 0;
+                            }}
                         }}
+
+                        drawTacticalMarker(cx, cy, 'UNIT', d.id, varColors.accent, 12, d.status !== 'idle');
+                    }});
+
+                    // 11. Scanline Overlay Effect
+                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                    for (let i = 0; i < height; i += 4) {{
+                        ctx.fillRect(0, i, width, 1);
                     }}
 
-                    const icon = d.status === 'offline' ? '💤' : '🛵';
-                    drawMarker(cx, cy, icon, d.id, varColors.accent, 26, d.status !== 'idle');
-                }});
-
-                    // Advance animation
-                    if (transitionFactor < 1.0) {{
-                        transitionFactor += 0.05; 
-                    }}
+                    if (transitionFactor < 1.0) transitionFactor += 0.08;
                 }} catch (e) {{
-                    console.error('Render error:', e);
+                    console.error('Tactical Render Failure:', e);
                 }}
             }}
 
-            function drawMarker(x, y, icon, label, color, size, pulse = false) {{
-                const floatY = Math.sin(Date.now() / 400) * 4;
-                const finalY = y + floatY;
+            function drawTacticalCar(ctx, x, y, w, h, color, horizontal) {{
+                ctx.save();
+                ctx.translate(x, y);
+                if (!horizontal) ctx.rotate(Math.PI / 2);
+                
+                // Shadow
+                ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                ctx.fillRect(-w/2 + 2, -h/2 + 2, w, h);
 
-                if (pulse) {{
-                    const p = (Math.sin(Date.now() / 250) + 1) / 2;
-                    ctx.shadowBlur = 15;
-                    ctx.shadowColor = color;
-                    ctx.strokeStyle = color;
-                    ctx.lineWidth = 2;
+                // Body
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.roundRect(-w/2, -h/2, w, h, 2);
+                ctx.fill();
+                
+                // Lights glow
+                ctx.shadowBlur = 5;
+                ctx.shadowColor = '#fff';
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(w/2 - 2, -h/2, 2, 2);
+                ctx.fillRect(w/2 - 2, h/2 - 2, 2, 2);
+                
+                ctx.shadowColor = '#f00';
+                ctx.fillStyle = '#f00';
+                ctx.fillRect(-w/2, -h/2, 1, 2);
+                ctx.fillRect(-w/2, h/2 - 2, 1, 2);
+                
+                ctx.restore();
+            }}
+
+            function drawTacticalMarker(x, y, type, label, color, size, active = false) {{
+                const now = Date.now();
+                const floatY = active ? Math.sin(now / 300) * 4 : 0;
+                const ty = y + floatY;
+
+                ctx.save();
+                ctx.translate(x, ty);
+                
+                // Outer Glow
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = color;
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2.5;
+
+                if (type === 'HEX') {{
                     ctx.beginPath();
-                    ctx.arc(x, finalY, size * (1 + p * 0.3), 0, Math.PI * 2);
+                    for (let i = 0; i < 6; i++) {{
+                        const angle = i * Math.PI / 3;
+                        ctx.lineTo(size * Math.cos(angle), size * Math.sin(angle));
+                    }}
+                    ctx.closePath();
+                    ctx.fillStyle = color + '11';
+                    ctx.fill();
                     ctx.stroke();
-                    ctx.shadowBlur = 0;
+                    
+                    // Inner accent
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, size * 0.4, 0, Math.PI*2);
+                    ctx.stroke();
+                }} else if (type === 'CROSS') {{
+                    ctx.beginPath();
+                    ctx.moveTo(-size, 0); ctx.lineTo(size, 0);
+                    ctx.moveTo(0, -size); ctx.lineTo(0, size);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.arc(0, 0, size * 0.7, 0, Math.PI * 2);
+                    ctx.stroke();
+                }} else if (type === 'DIAMOND') {{
+                    ctx.beginPath();
+                    ctx.moveTo(0, -size); ctx.lineTo(size, 0);
+                    ctx.lineTo(0, size); ctx.lineTo(-size, 0);
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.fillStyle = color + '22';
+                    ctx.fill();
+                }} else if (type === 'UNIT') {{
+                    // Circle background
+                    ctx.beginPath();
+                    ctx.arc(0, 0, size, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    // Directional arrow
+                    ctx.fillStyle = color;
+                    ctx.beginPath();
+                    ctx.moveTo(0, -size - 5);
+                    ctx.lineTo(5, -size + 1);
+                    ctx.lineTo(-5, -size + 1);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    if (active) {{
+                        const pulse = (Math.sin(now/150) + 1) / 2;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, size * (1.2 + pulse * 0.2), 0, Math.PI * 2);
+                        ctx.strokeStyle = color + '66';
+                        ctx.stroke();
+                    }}
                 }}
 
-                ctx.font = `${{size}}px Arial`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillStyle = 'white';
-                ctx.fillText(icon, x, finalY);
-
-                ctx.font = 'bold 11px Outfit';
-                ctx.fillStyle = color;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = color;
-                ctx.fillText(label, x, finalY + size/1.1);
+                // Digital Label
                 ctx.shadowBlur = 0;
+                ctx.fillStyle = '#fff';
+                ctx.font = '800 10px JetBrains Mono, monospace';
+                ctx.textAlign = 'center';
+                const text = label.toUpperCase();
+                ctx.fillText(text, 0, size + 14);
+                
+                // Small ID tag
+                ctx.font = '500 8px JetBrains Mono';
+                ctx.fillStyle = color;
+                ctx.fillText("» ACTIVE", 0, -size - 8);
+
+                ctx.restore();
             }}
 
             async function launchTask(taskId) {{
@@ -864,8 +1026,6 @@ async def root(request: Request):
                 document.getElementById('dashboard').scrollIntoView({{ behavior: 'smooth' }});
                 
                 log(`Tactical Link Initiating: ${{taskId}}...`, varColors.primary);
-                
-                // Use only WebSocket for initialization to prevent double-reset
                 initWebSocket();
             }}
 
@@ -923,12 +1083,12 @@ async def root(request: Request):
                     btn.textContent = 'Active...';
                     btn.classList.remove('btn-warning');
                     btn.classList.add('btn-success');
-                    log('Intelligent Tracking System Active.', '#10b981');
+                    log('Intelligent Tracking System Active.', varColors.success);
                     autoInterval = setInterval(() => {{
                         if (socket && socket.readyState === WebSocket.OPEN) {{
                             socket.send(JSON.stringify({{ type: 'auto_step', task_id: currentTaskId }}));
                         }}
-                    }}, 250); // Increased speed
+                    }}, 250); 
                 }}
             }};
 
@@ -945,10 +1105,10 @@ async def root(request: Request):
                     btn.textContent = 'Running...';
                     btn.classList.remove('btn-primary');
                     btn.classList.add('btn-warning');
-                    log('System engaging Auto-Pilot.', '#f59e0b');
+                    log('System engaging Auto-Pilot.', varColors.warning);
                     autoInterval = setInterval(() => {{
                         document.getElementById('btn-step').click();
-                    }}, 250); // Increased speed
+                    }}, 250);
                 }}
             }};
 
@@ -956,7 +1116,6 @@ async def root(request: Request):
                 if (autoInterval) document.getElementById('btn-auto').click();
             }};
 
-            // Start Animation Loop
             drawGrid();
         </script>
     </body>
@@ -988,7 +1147,9 @@ def list_tasks():
 
 
 @app.post("/reset")
-def reset(req: ResetRequest):
+def reset(req: Optional[ResetRequest] = None):
+    if req is None:
+        req = ResetRequest()
     env = FoodDeliveryEnvironment()
     obs = env.reset(task_id=req.task_id, seed=req.seed, episode_id=req.episode_id)
     episode_id = env.state.episode_id
