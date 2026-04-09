@@ -1,103 +1,101 @@
 """
 inference.py - Baseline inference script for the Food Delivery OpenEnv.
 
-This script demonstrates how an AI agent interacts with the environment
-by calling the /reset and /step API endpoints.
+Emits structured [START]/[STEP]/[END] output blocks to stdout
+as required by the OpenEnv Phase 2 validator.
 """
 
 import sys
 import os
-import requests
 import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-BASE_URL = os.environ.get("OPENENV_URL", "http://localhost:8000")
+from server.food_delivery_environment import FoodDeliveryEnvironment
+from models import DeliveryAction, Location
+from tasks import get_all_task_ids, get_task
+from grader import manhattan_distance
 
 
-def run_inference(task_id="easy_1"):
-    """Run a single episode of the food delivery environment."""
-    # Reset the environment
-    reset_resp = requests.post(f"{BASE_URL}/reset", json={"task_id": task_id})
-    reset_data = reset_resp.json()
-    episode_id = reset_data["episode_id"]
-    obs = reset_data["observation"]
+def find_nearest_idle_driver(drivers, target_location):
+    """Find the nearest idle driver to a target location."""
+    best = None
+    best_dist = float("inf")
+    for d in drivers:
+        if d.status == "idle":
+            dist = manhattan_distance(d.location, target_location)
+            if dist < best_dist:
+                best_dist = dist
+                best = d
+    return best
 
-    print(f"[RESET] Episode: {episode_id} | Task: {task_id}")
-    print(f"  Orders: {obs['metrics'].get('total_orders', 0)} | "
-          f"Drivers: {len(obs.get('drivers', []))}")
+
+def run_task(env, task_id):
+    """Run a single task and emit structured output."""
+    obs = env.reset(task_id=task_id)
+
+    # [START] block
+    print(f"[START] task={task_id}", flush=True)
 
     total_reward = 0.0
     step_count = 0
 
-    while not obs.get("done", False):
-        # Simple greedy: assign pending orders to nearest idle drivers
-        action = {"action_type": "wait"}
+    while not obs.done:
+        action = None
 
-        pending = [o for o in obs.get("orders", []) if o["status"] == "pending"]
-        idle_drivers = [d for d in obs.get("drivers", []) if d["status"] == "idle"]
+        # Prioritise VIP > priority > normal
+        pending_orders = [o for o in obs.orders if o.status == "pending"]
+        vip_orders = [o for o in pending_orders if o.priority == "vip"]
+        priority_orders = [o for o in pending_orders if o.priority == "priority"]
+        normal_orders = [o for o in pending_orders if o.priority == "normal"]
 
-        if pending and idle_drivers:
-            order = pending[0]
-            # Find nearest idle driver
-            best_driver = None
-            min_dist = float("inf")
-            for d in idle_drivers:
-                dist = (abs(d["location"]["x"] - order["pickup_location"]["x"])
-                        + abs(d["location"]["y"] - order["pickup_location"]["y"]))
-                if dist < min_dist:
-                    min_dist = dist
-                    best_driver = d
+        sorted_orders = vip_orders + priority_orders + normal_orders
 
-            if best_driver:
-                action = {
-                    "action_type": "assign_order",
-                    "order_id": order["id"],
-                    "driver_id": best_driver["id"],
-                }
+        assigned = False
+        for order in sorted_orders:
+            driver = find_nearest_idle_driver(obs.drivers, order.pickup_location)
+            if driver:
+                action = DeliveryAction(
+                    action_type="assign_order",
+                    order_id=order.id,
+                    driver_id=driver.id,
+                )
+                assigned = True
+                break
 
-        step_resp = requests.post(
-            f"{BASE_URL}/step/{episode_id}",
-            json={"action": action},
-        )
-        step_data = step_resp.json()
-        obs = step_data["observation"]
-        total_reward += obs.get("reward", 0.0)
+        if not assigned:
+            action = DeliveryAction(action_type="wait")
+
+        obs = env.step(action)
+        total_reward += obs.reward
         step_count += 1
 
-    print(f"[DONE] Steps: {step_count} | Score: {obs.get('score', 0):.4f} | "
-          f"Total Reward: {total_reward:.4f}")
-    return obs.get("score", 0.0)
+        # [STEP] block
+        print(f"[STEP] step={step_count} reward={obs.reward}", flush=True)
+
+    final_score = env.state.current_score
+
+    # [END] block
+    print(f"[END] task={task_id} score={final_score} steps={step_count}", flush=True)
+
+    return final_score
 
 
 def main():
-    """Run inference across all task difficulties."""
-    from tasks import get_all_task_ids
-
-    print("=" * 60)
-    print("Food Delivery OpenEnv - Inference")
-    print("=" * 60)
-
+    """Run inference across all tasks with structured output."""
+    env = FoodDeliveryEnvironment()
     all_tasks = get_all_task_ids()
-    scores = []
 
     for task_id in all_tasks:
         try:
-            score = run_inference(task_id)
-            scores.append({"task_id": task_id, "score": score})
+            run_task(env, task_id)
         except Exception as e:
-            print(f"[ERROR] Task {task_id}: {e}")
-            scores.append({"task_id": task_id, "score": 0.0})
-
-    print()
-    print("=" * 60)
-    print("RESULTS")
-    print("=" * 60)
-    for s in scores:
-        print(f"  {s['task_id']:.<20} {s['score']:.4f}")
-
-    avg = sum(s["score"] for s in scores) / len(scores) if scores else 0
-    print(f"\n  Average Score: {avg:.4f}")
+            # Still emit structured blocks on failure so the validator
+            # can parse partial results.
+            print(f"[START] task={task_id}", flush=True)
+            print(f"[STEP] step=0 reward=0", flush=True)
+            print(f"[END] task={task_id} score=0 steps=0", flush=True)
+            sys.stderr.write(f"ERROR on {task_id}: {e}\n")
 
 
 if __name__ == "__main__":
