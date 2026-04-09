@@ -65,6 +65,9 @@ def grade_task(
     elif difficulty == "hard":
         score = score * 0.95
 
+    # Clamp to open interval (0, 1) — validator rejects exactly 0.0 or 1.0
+    score = max(0.0001, min(0.9999, score))
+
     return round(score, 4)
 
 
